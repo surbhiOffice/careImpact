@@ -1,0 +1,71 @@
+<div class="dashboard-container">
+  <nav class="sidebar">
+    <img
+      src="logo.png"
+      alt=""
+      style="width: 194px; height: 41px; top: 31px; left: 44px; opacity: 1"
+    />
+
+    <ul>
+      <li><a>Home</a></li>
+      <li><a routerLink="/dashboard/tasks" routerLinkActive="active">Tasks</a></li>
+      <li><a>Patients</a></li>
+      <li><a>Timesheets</a></li>
+      <li><a>Settings</a></li>
+    </ul>
+  </nav>
+
+  <div>
+    <header>
+      <div style="display: flex; justify-content: space-between">Home &lt; Tasks</div>
+
+      <div style="display: flex">
+        <cats-ui-search-box
+          [searchConfig]="searchConfig"
+          class="input-container"
+        ></cats-ui-search-box>
+        <ul
+          style="
+            display: flex;
+            width: 144px;
+            height: 48px;
+            margin-top: 24px;
+            margin-left: 24px;
+            opacity: 1;
+            gap: 24px;
+          "
+        >
+          <li><img src="vector.png" alt="" style="height: 24px; width: 24px" /></li>
+          <li><img src="notification.png" alt="" style="height: 24px; width: 24px" /></li>
+          <li><img src="avtar.png" alt="" style="height: 48px; width: 48px" /></li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="oulet-container">
+      <div
+        style="
+          width: 1536px;
+          height: 38px;
+          display: flex;
+          justify-content: space-between;
+          opacity: 1;
+          margin-bottom: 1px;
+        "
+      >
+        <div><span>OPEN TASK</span></div>
+        <div style="display: flex; justify-content: space-between; opacity: 1">
+          <cats-ui-single-select
+            [optionList]="options"
+            [singleSelectConfig]="singleConfig"
+            formControlName="severity"
+            (onSelection)="onInputSelectiontext($event)"
+          >
+          </cats-ui-single-select>
+          <button style="color: #007aff">View Historical Task</button>
+        </div>
+      </div>
+      <div ><router-outlet></router-outlet></div>
+    </div>
+  </div>
+</div>

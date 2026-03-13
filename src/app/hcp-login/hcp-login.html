@@ -1,0 +1,29 @@
+<div class="login-container">
+
+    <div class="login-box">
+        <div><img src="logo.png" alt=""></div>
+        <div style="width: 612px;height: 104px;">
+            <h2>Welcome to</h2>
+            <h2>Care Impact Portal</h2>
+        </div>
+
+        <div style="width: 612px;height: 424px;gap: 24px;">
+
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <label >User Name</label>
+                <cats-ui-input [inputConfig]="inputConfigText" formControlName="userName">
+                </cats-ui-input>
+                <label >Password</label>
+                <cats-ui-input [inputConfig]="inputConfigText" formControlName="password">
+                </cats-ui-input>
+                <button type="submit">Login</button>
+            </form>
+
+
+        </div>
+        <div style="width: 612px;height: 20px;">
+            <small>Forgot Password?</small>
+        </div>
+    </div>
+
+</div>
