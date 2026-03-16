@@ -1,7 +1,7 @@
 import { Component, computed, effect, OnInit } from '@angular/core';
 import { CatsDataGridComponent, CommonRendererComponent } from 'cats-data-grid';
 import { DashboardService } from '../dashboard-service';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-task',
@@ -13,13 +13,17 @@ export class Task implements OnInit {
   constructor(
     private searchService: DashboardService,
     private router: Router,
+    private route: ActivatedRoute
   ) {
+ 
     effect(() => {
       this.searchService.searchValue(); // watch signal
       this.page = 0; // reset pagination
       this.updatePagedData(); // update table
     });
   }
+
+
 
   filteredTasks = computed(() => {
     const search = this.searchService.searchValue().toLowerCase();
@@ -655,12 +659,26 @@ export class Task implements OnInit {
     },
   ];
 
-
   colDef = [
     {
       fieldName: 'taskId',
       headerName: 'Task ID',
-      
+      cellRenderer: CommonRendererComponent,
+      cellRendererParams: {
+        type: 'link',
+        onLinkClick: (param: any) => {
+          console.log(param.row);
+          const task = param.row;
+          this.router.navigate(['/dashboard/tasks', task.taskId], {
+            state: { task },
+          });
+        },
+      },
+    },
+
+    // {
+    //   fieldName: 'taskId',
+    //   headerName: 'Task ID',
     //   cellRenderer: (params: any) => {
     //     return `<span style="color:#007AFF;cursor:pointer;text-decoration:underline">
     //           ${params.value}
@@ -668,23 +686,6 @@ export class Task implements OnInit {
     //   },
     // },
 
-      cellRenderer: CommonRendererComponent,
-      cellRendererParams: {
-        type: 'link',
-        onLinkClick: (param: any) => {
-          console.log(param.row);
-          // const task = param.data || param;
-          const task = param.row;
-          this.router.navigate([`/dashboard/tasks/${task.taskId}`], {
-            state: { task },
-            
-          }
-        );
-    
-      },
-    },
-  },
- 
     {
       fieldName: 'taskPriority',
       headerName: 'Task Priority',

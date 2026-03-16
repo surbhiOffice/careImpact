@@ -4,9 +4,11 @@ import { TaskDetails } from './task/task-details/task-details';
 
 
 export const routes: Routes = [
-  { path: 'tasks', component: Task ,
-       children: [
-      { path: ':id', component: TaskDetails }
-    ]
-  }
+  // { path: 'tasks', component: Task ,
+  //      children: [
+  //     { path: ':id', component: TaskDetails }
+  //   ]
+  // }
+   { path: 'tasks', component: Task },
+  { path: 'tasks/:id', component: TaskDetails }
 ];
