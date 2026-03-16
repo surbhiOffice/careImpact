@@ -1,13 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, OnInit } from '@angular/core';
 import { CatsDataGridComponent, CommonRendererComponent } from 'cats-data-grid';
+import { DashboardService } from '../dashboard-service';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-task',
-  imports: [CatsDataGridComponent],
+  imports: [CatsDataGridComponent, RouterOutlet],
   templateUrl: './task.html',
   styleUrl: './task.scss',
 })
-export class Task {
+export class Task implements OnInit {
+  constructor(
+    private searchService: DashboardService,
+    private router: Router,
+  ) {
+    effect(() => {
+      this.searchService.searchValue(); // watch signal
+      this.page = 0; // reset pagination
+      this.updatePagedData(); // update table
+    });
+  }
+
+  filteredTasks = computed(() => {
+    const search = this.searchService.searchValue().toLowerCase();
+    const service = this.searchService.hcpServiceFilter()?.toLowerCase() || '';
+
+    return this.data.filter((task) => {
+      const matchesSearch =
+        !search ||
+        task.taskId.toLowerCase().includes(search) ||
+        task.patient.toLowerCase().includes(search) ||
+        task.taskType.toLowerCase().includes(search);
+
+      const matchesService = !service || task.service.toLowerCase() === service;
+
+      return matchesSearch && matchesService;
+    });
+  });
+
   page = 0;
   pageSize = 20;
   pagedData: any[] = [];
@@ -625,31 +655,129 @@ export class Task {
     },
   ];
 
+
   colDef = [
-    { fieldName: 'taskId', headerName: 'Task ID' },
-    { fieldName: 'taskPriority', headerName: 'Task Priority' },
+    {
+      fieldName: 'taskId',
+      headerName: 'Task ID',
+      
+    //   cellRenderer: (params: any) => {
+    //     return `<span style="color:#007AFF;cursor:pointer;text-decoration:underline">
+    //           ${params.value}
+    //         </span>`;
+    //   },
+    // },
+
+      cellRenderer: CommonRendererComponent,
+      cellRendererParams: {
+        type: 'link',
+        onLinkClick: (param: any) => {
+          console.log(param.row);
+          // const task = param.data || param;
+          const task = param.row;
+          this.router.navigate([`/dashboard/tasks/${task.taskId}`], {
+            state: { task },
+            
+          }
+        );
+    
+      },
+    },
+  },
+ 
+    {
+      fieldName: 'taskPriority',
+      headerName: 'Task Priority',
+      cellRenderer: (params: any) => {
+        const value = params.value;
+
+        const colorMap: any = {
+          Urgent: '#ff4d4f',
+          Important: '#6fbdeb',
+          Regular: '#52c41a',
+        };
+
+        const color = colorMap[value] || '#000';
+
+        return `
+<span style="
+  color:${color};
+  border:1px solid ${color};
+  background:${color}1A;
+  padding:2px 8px;
+  border-radius:6px;
+  font-weight:500;
+  font-size:12px;
+">
+  ${value}
+</span>
+`;
+      },
+    },
     { fieldName: 'service', headerName: 'Service' },
     { fieldName: 'taskType', headerName: 'Task Type' },
     { fieldName: 'taskDetails', headerName: 'Task Details' },
     {
       fieldName: 'taskStatus',
       headerName: 'Task Status',
-    //   cellRenderer: CommonRendererComponent,
-    //   cellRendererParams: {
-    //     type: 'iconText',
-    //     icon: 'check.png',
-    //     value: (params: any) => {
-    //       if (params.value === 'Completed') {
-    //         return { text: params.value, icon: 'check.png' };
-    //       } else if (params.value === 'Overdue') {
-    //         return { text: params.value, icon: 'overdue.png' };
-    //       } else {
-    //         return { text: params.value, icon: 'todo.png' };
-    //       }
-    //   },
-    // }
-  },
-    { fieldName: 'patient', headerName: 'Patient Name' },
+      cellRenderer: (params: any) => {
+        const value = params.value;
+
+        let icon = '';
+
+        switch (value) {
+          case 'Completed':
+            icon = '✅';
+            break;
+          case 'To Do':
+            icon = `<img src="clock.png" width="16" height="16" />`;
+            break;
+          case 'Overdue':
+            icon = '⚠️';
+            break;
+          default:
+            icon = 'ℹ️';
+        }
+
+        return `<span style="display:flex;align-items:center;gap:6px">
+              <span>${icon}</span>
+              <span>${value}</span>
+            </span>`;
+      },
+    },
+    {
+      fieldName: 'patient',
+      headerName: 'Patient Name',
+      cellRenderer: (params: any) => {
+        const name = params.value || '';
+
+        const parts = name.split(' ');
+        const first = parts[0]?.charAt(0) || '';
+        const last = parts[1]?.charAt(0) || '';
+
+        const initials = (first + last).toUpperCase();
+
+        return `
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="
+          width:28px;
+          height:28px;
+          border-radius:50%;
+          background:#e6f4ff;
+          color:#1677ff;
+          font-weight:600;
+          font-size:12px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        ">
+          ${initials}
+        </div>
+        <span>${name}</span>
+      </div>
+    `;
+      },
+    },
     { fieldName: 'dueDate', headerName: 'Due Date' },
   ];
 
@@ -661,9 +789,11 @@ export class Task {
   }
 
   updatePagedData() {
+    const filtered = this.filteredTasks(); //use signal result
     const startIndex = this.page * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.pagedData = this.data.slice(startIndex, endIndex);
+
+    this.pagedData = filtered.slice(startIndex, endIndex);
   }
 
   pageChange(event: any) {
@@ -674,4 +804,10 @@ export class Task {
 
     this.updatePagedData();
   }
+
+  //   cellRenderer(params: any) {
+  //     if (params.colDef.fieldName === 'taskStatus') {
+  //       return  icon`${value}`;
+  //     }
+  // }
 }

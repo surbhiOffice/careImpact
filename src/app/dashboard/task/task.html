@@ -1,5 +1,5 @@
-    <cats-data-grid [rowData]="pagedData" [colDefs]="colDef" [totalRecords]="data.length" [paginationRequired]="true"
+    <cats-data-grid [rowData]="pagedData" [colDefs]="colDef" [totalRecords]="filteredTasks().length" [paginationRequired]="true"
         [sortingRequired]="true" [filterRequired]="true" 
         [pageSizeList]="[20,30,50]" (onPaginationChange)="pageChange($event)">
-        <!-- [checkBoxSelection]="true" checkboxSelectionType="multiple"(onCheckboxSelection)="onSelectedRows($event)" -->
     </cats-data-grid>
+<router-outlet></router-outlet>

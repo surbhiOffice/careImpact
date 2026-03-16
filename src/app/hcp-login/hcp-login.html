@@ -1,29 +1,51 @@
 <div class="login-container">
-
-    <div class="login-box">
-        <div><img src="logo.png" alt=""></div>
-        <div style="width: 612px;height: 104px;">
-            <h2>Welcome to</h2>
-            <h2>Care Impact Portal</h2>
-        </div>
-
-        <div style="width: 612px;height: 424px;gap: 24px;">
-
-            <form [formGroup]="loginForm" (ngSubmit)="login()">
-                <label >User Name</label>
-                <cats-ui-input [inputConfig]="inputConfigText" formControlName="userName">
-                </cats-ui-input>
-                <label >Password</label>
-                <cats-ui-input [inputConfig]="inputConfigText" formControlName="password">
-                </cats-ui-input>
-                <button type="submit">Login</button>
-            </form>
-
-
-        </div>
-        <div style="width: 612px;height: 20px;">
-            <small>Forgot Password?</small>
-        </div>
+  <div class="login-box">
+    <div><img src="logo.png" alt="" /></div>
+    <div style="width: 612px; height: 104px">
+      <h2>Welcome to</h2>
+      <h2>Care Impact Portal</h2>
     </div>
 
+    <div style="width: 612px; gap: 24px">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div>
+          <label>User Name</label>
+          <cats-ui-input [inputConfig]="inputConfigText" formControlName="userName">
+          </cats-ui-input>
+          @if (loginForm.get('username')?.touched || loginForm.get('username')?.dirty) {
+            @if (loginForm.get('username')?.hasError('required')) {
+              <span style="color: red">Username is required</span>
+            }
+            @if (loginForm.get('username')?.hasError('minlength')) {
+              <span style="color: red">Username must be at least 3 characters long</span>
+            }
+            @if (loginForm.get('username')?.hasError('pattern')) {
+              <span style="color: red"
+                >Username can only contain lowercase letters, spaces, and hyphens.</span
+              >
+            }
+          }
+        </div>
+        <div>
+          <label>Password</label>
+          <cats-ui-input [inputConfig]="inputConfigText" formControlName="password">
+          </cats-ui-input>
+          @if (loginForm.get('password')?.touched || loginForm.get('password')?.dirty) {
+            @if (loginForm.get('password')?.hasError('required')) {
+              <span style="color: red">Password is required</span>
+            }
+            @if (loginForm.get('password')?.hasError('pattern')) {
+              <span style="color: red"
+                >Password must be 8+ characters with uppercase, lowercase, number, and special character.</span
+              >
+            }
+          }
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <div style="width: 612px; height: 20px; text-align: center">
+      <small>Forgot Password?</small>
+    </div>
+  </div>
 </div>

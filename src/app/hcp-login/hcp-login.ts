@@ -13,8 +13,10 @@ export class HcpLogin {
   loginForm!: FormGroup
   constructor(private router: Router, private fb: FormBuilder) {
   this.loginForm = this.fb.group({
-    userName: ['',[Validators.required, Validators.minLength(3)]],
-    password: ['',[Validators.required]]
+    userName: ['',[Validators.required, Validators.minLength(3),Validators.pattern(/^[a-z]+( [a-z]+)*$/)]],
+    password: ['',[Validators.required ,       Validators.pattern(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/,
+        ),]]
   })
   }
 
