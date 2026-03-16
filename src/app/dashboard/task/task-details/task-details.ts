@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-task-details',
@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   templateUrl: './task-details.html',
   styleUrl: './task-details.scss',
 })
-export class TaskDetails {
-
+export class TaskDetails implements OnInit {
+  patient: any;
+  ngOnInit(): void {
+    this.patient = history.state.task;
+    console.log(this.patient);
+  }
 }

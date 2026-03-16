@@ -667,7 +667,7 @@ export class Task implements OnInit {
       cellRendererParams: {
         type: 'link',
         onLinkClick: (param: any) => {
-          console.log(param.row);
+          // console.log(param.row);
           const task = param.row;
           this.router.navigate(['/dashboard/tasks', task.taskId], {
             state: { task },
