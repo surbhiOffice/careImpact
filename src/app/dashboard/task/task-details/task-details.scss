@@ -1,0 +1,259 @@
+.detail-container {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 80%;
+  height: 80%;
+}
+
+/* LEFT + RIGHT PANELS */
+.left,
+.right {
+  border: 1px solid #92acee;
+  border-radius: 5px;
+  width: 49%;
+  height: 100%;
+  margin: 0 0.5%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* RIGHT SECTIONS */
+.upper {
+  border-bottom: 1px solid #92acee;
+  height: 25%;
+  padding: 12px;
+}
+
+.lower {
+  height: 75%;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%; /* ✅ FIXED */
+  max-width: 100%; /* ✅ prevents overflow */
+  box-sizing: border-box;
+  height: 80%;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  row-gap: 14px;
+  column-gap: 14px;
+  align-items: center;
+}
+
+/* TEXT */
+.value {
+  font-family: 'Rethink Sans', sans-serif;
+  font-size: 14px;
+  line-height: 140%;
+  color: #333;
+}
+
+label {
+  font-family: 'Rethink Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+}
+
+/* INPUTS */
+textarea,
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-color: #92acee;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* HEADER */
+h1 {
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+/* -------- RESPONSIVENESS -------- */
+
+/* Medium laptops (1366px and below) */
+@media (max-width: 1366px) {
+  .grid {
+    grid-template-columns: 150px 1fr;
+  }
+}
+
+/* Small laptops */
+@media (max-width: 1100px) {
+  .detail-container {
+    flex-direction: column;
+    height: auto; /* allows stacking */
+  }
+
+  .left,
+  .right {
+    width: 100%;
+    height: auto;
+    margin: 8px 0;
+  }
+
+  .upper {
+    height: auto;
+  }
+
+  .lower {
+    height: auto;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr; /* stack label + value */
+  }
+
+  label {
+    margin-top: 8px;
+  }
+}
+
+.left-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tag.green {
+  background: #e6f7ee;
+  color: #1a7f5a;
+}
+
+.tag.blue {
+  background: #e6f0ff;
+  color: #2f6fed;
+}
+
+.status {
+  font-size: 12px;
+  color: #888;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.outline {
+  border: 1px solid #2f6fed;
+  background: transparent;
+  color: #2f6fed;
+}
+
+/* Base button */
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Disabled state */
+.btn:disabled {
+  background: #cbd5e1;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Enabled state */
+.btn.primary:not(:disabled) {
+  background: #22c55e;
+  color: #fff;
+}
+
+/* Hover only when enabled */
+.btn.primary:not(:disabled):hover {
+  background: #16a34a;
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.chip {
+  padding: 6px 10px;
+  background: #eef2ff;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.chip.active {
+  background: #d1fae5;
+  color: #059669;
+}
+
+/* Progress bar */
+.progress {
+  height: 6px;
+  background: #92acee;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+.time-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}

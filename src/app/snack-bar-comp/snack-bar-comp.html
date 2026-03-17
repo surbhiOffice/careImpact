@@ -1,0 +1,23 @@
+<div class="snackbar-container">
+  @for (toast of toasts(); track toast.timestamp) {
+  <div class="snackbar" [ngClass]="toast.type">
+    <div class="message">
+      <span class="title">{{ toast.title }}</span>
+      <br>
+      <span class="text">{{ toast.toastData }}</span>
+      <span class="time">{{ formatTime(toast.timestamp) }}</span>
+    </div>
+    <br>
+
+   <div class="actions">
+      @for (btn of toast.buttonText; track btn) {
+        <button (click)="handleAction(btn, toast)">
+          {{ btn }}
+        </button>
+      }
+    </div>
+
+  </div>
+
+  }
+</div>

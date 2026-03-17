@@ -17,27 +17,23 @@ import { filter } from 'rxjs';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  constructor(private searchService: DashboardService, private router: Router) {
-        this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateBreadcrumb();
-      });
+  constructor(
+    private searchService: DashboardService,
+    private router: Router,
+  ) {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.updateBreadcrumb();
+    });
 
     this.updateBreadcrumb();
   }
 
   updateBreadcrumb() {
-
     const url = this.router.url;
 
-    const segments = url
-      .split('/')
-      .filter((x:any )=> x && x !== 'dashboard');
+    const segments = url.split('/').filter((x: any) => x && x !== 'dashboard');
 
-    this.breadcrumbs = ['Home', ...segments.map(s =>
-      this.capitalize(s.replace('-', ' '))
-    )];
+    this.breadcrumbs = ['Home', ...segments.map((s) => this.capitalize(s.replace('-', ' ')))];
   }
 
   capitalize(text: string) {
@@ -53,6 +49,26 @@ export class Dashboard {
     { id: '2', name: 'RPM' },
     { id: '3', name: 'CCM' },
   ];
+  time = [
+    { id: '1', name: 'SelectAll' },
+    { id: '2', name: 'RPM' },
+    { id: '3', name: 'CCM' },
+  ];
+  status = [
+    { id: '1', name: 'SelectAll' },
+    { id: '2', name: 'RPM' },
+    { id: '3', name: 'CCM' },
+  ];
+  taskType = [
+    { id: '1', name: 'SelectAll' },
+    { id: '2', name: 'RPM' },
+    { id: '3', name: 'CCM' },
+  ];
+  priority = [
+    { id: '1', name: 'SelectAll' },
+    { id: '2', name: 'RPM' },
+    { id: '3', name: 'CCM' },
+  ];
 
   searchConfig: SearchConfig = {
     serachValue: '',
@@ -64,23 +80,43 @@ export class Dashboard {
     placeholder: 'Enter value',
   };
 
+  onInputSelectiontext(selected: any) {
+    const service = selected?.name; // RPM / CCM / SelectAll
 
-
-onInputSelectiontext(selected: any) {
-  const service = selected?.name;   // RPM / CCM / SelectAll
-
-  if (service === 'SelectAll') {
-    this.searchService.selectService('');
-  } else {
-    this.searchService.selectService(service);
+    if (service === 'SelectAll') {
+      this.searchService.selectService('');
+    } else {
+      this.searchService.selectService(service);
+    }
   }
-}
 
   singleConfig: SingleSelectConfig = {
     idField: 'id',
     textField: 'name',
     disabledField: 'disable',
-    placeholder: 'Select Option',
+    placeholder: 'Select Service',
     prefixLabel: 'Service',
   };
+  //   priorityConfig: SingleSelectConfig = {
+  //   idField: 'id',
+  //   textField: 'name',
+  //   disabledField: 'disable',
+  //   placeholder: 'Select Priority',
+  //   prefixLabel: 'Priority',
+  // };
+  //   taskConfig: SingleSelectConfig = {
+  //   idField: 'id',
+  //   textField: 'name',
+  //   disabledField: 'disable',
+  //   placeholder: 'Select Task Type',
+  //   prefixLabel: 'Task Type',
+  // };
+  //   statusConfig: SingleSelectConfig = {
+  //   idField: 'id',
+  //   textField: 'name',
+  //   disabledField: 'disable',
+  //   placeholder: 'Select status',
+  //   prefixLabel: 'Status',
+  // };
+
 }

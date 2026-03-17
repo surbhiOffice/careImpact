@@ -1,1 +1,124 @@
-<p>task-details works!</p>
+<div class="detail-container">
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <!-- Header -->
+    <div class="left-header">
+      <h1 style="font-weight: 500; font-size: 36px">{{ patient.taskId }}</h1>
+      <div class="tags">
+        <span class="tag green">{{ patient.taskPriority }}</span>
+        <span class="tag blue">{{ patient.service }}</span>
+        <span class="status">{{ patient.taskStatus }}</span>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <!-- <div class="left-data"> -->
+    <div class="card">
+      <div class="grid">
+        <label>Patient</label>
+        <div class="value">{{ patient.patient }}</div>
+
+        <label>Patient Service(s)</label>
+        <div class="value">{{ patient.service }}</div>
+
+        <label>Task Type</label>
+        <div class="value">{{ patient.taskType }}</div>
+
+        <label>Task Details</label>
+        <div class="value">{{ patient.taskDetails }}</div>
+
+        <label>Contact No.</label>
+        <div class="value">+1-555-123-4567</div>
+        <label>HCP Note *</label>
+        <textarea [(ngModel)]="hcpNote"></textarea>
+
+        <label>Add Timesheet</label>
+        <input type="number" [(ngModel)]="timeInput" (input)="onTimeChange()" min="0" max="20" placeholder="Enter minutes (0-20)" />
+
+        <!-- <cats-ui-date-time-picker
+          class="time-picker"
+          #picker
+          (dateTimeSelected)="onDatetimeSelected($event)"
+          [dateConfig]="{ selectionMode: 'single' }"
+          [(ngModel)]="timeInput"
+        ></cats-ui-date-time-picker> -->
+
+        <label>Map Time Against</label>
+        <select style="width: 300px">
+          <option>CCM - 99490</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="actions">
+      <button class="btn outline">Clear Details</button>
+      <!-- <button class="btn primary">Complete Task</button> -->
+      <button class="btn primary" [disabled]="!isFormValid">Complete Task</button>
+    </div>
+  </div>
+
+  <!-- </div> -->
+
+  <!-- RIGHT PANEL -->
+  <div class="right">
+    <!-- Upper Section (Billing Codes) -->
+    <div class="upper">
+      <h3>Billable CPT Codes</h3>
+      <div class="chips">
+        <span class="chip">CCM - 99491</span>
+        <span class="chip">CCM - 99439</span>
+        <span class="chip active">CCM - 99490</span>
+      </div>
+
+      <!-- <div class="progress">
+        <div class="progress-bar"></div>
+      </div> -->
+      <div class="progress">
+        <div class="progress-bar" [style.width.%]="progress"></div>
+      </div>
+
+      <div class="time-info">
+        <span>{{ timeInput || '00:00' }} / 20 mins</span>
+        <span>{{ remainingTime }} Remaining</span>
+      </div>
+    </div>
+
+    <!-- Lower Section (Patient Details) -->
+    <div class="lower">
+      <h3>Basics</h3>
+
+      <div class="grid">
+        <label>Sex</label>
+        <div class="value">Male</div>
+
+        <label>Date of Birth</label>
+        <div class="value">12 October 1965</div>
+
+        <label>Age</label>
+        <div class="value">62 Years</div>
+
+        <label>Contact Number</label>
+        <div class="value">+66 987 87654</div>
+
+        <label>Email</label>
+        <div class="value">mickeymouse@gmail.com</div>
+
+        <label>Emergency Contact</label>
+        <div class="value">+66 123 45626</div>
+
+        <label>Residential Address</label>
+        <div class="value">234, Main Street, Random House, Virginia (West), US, 43257</div>
+
+        <label>Practice</label>
+        <div class="value">Neulife Healthcare</div>
+
+        <label>Provider</label>
+        <div class="value">110345 - Dr Warren Right</div>
+
+        <label>Insurance</label>
+        <div class="value">Humana</div>
+      </div>
+    </div>
+  </div>
+</div>

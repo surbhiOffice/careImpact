@@ -1,5 +1,16 @@
-    <cats-data-grid [rowData]="pagedData" [colDefs]="colDef" [totalRecords]="filteredTasks().length" [paginationRequired]="true"
-        [sortingRequired]="true" [filterRequired]="true" 
+   <img src="addBox.svg" alt="add" style="background-color: black" (click)="onclick()" />
+   <cats-data-grid [rowData]="pagedData" [colDefs]="colDef" [totalRecords]="filteredRows().length" [paginationRequired]="true"
+        [sortingRequired]="true" [filterRequired]="true"  [tableOptions]="tableOption()"
         [pageSizeList]="[20,30,50]" (onPaginationChange)="pageChange($event)">
     </cats-data-grid>
-<router-outlet></router-outlet>
+<!-- <router-outlet></router-outlet> -->
+
+
+<!-- inline template version of the form -->
+<ng-template #formTemplate let-data="data">
+  <app-add-task-form [patientData]="data" (closed)="onFormClosed()"></app-add-task-form>
+</ng-template>
+
+@if(showForm()){
+  <ng-container [ngTemplateOutlet]="formTemplate" [ngTemplateOutletContext]="{data: currentPatient}"></ng-container>
+}

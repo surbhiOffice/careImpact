@@ -1,0 +1,31 @@
+<div class="overlay">
+    <div class="popup">
+        <div>
+            <img src="close.svg" alt="close" (click)="close()" />
+        </div>
+
+
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="patient">Patient Name </label>
+                <input type="text" id="patient" formControlName="patient" />
+
+                <label for="taskPriority">Task Priority</label>
+                <input type="text" id="taskPriority" formControlName="taskPriority" />
+
+                <label for="service">Service</label>
+                <input type="text" id="service" formControlName="service" />
+
+                <label for="taskDetails">Task Details</label>
+                <input type="text" id="taskDetails" formControlName="taskDetails" />
+
+                <label for="taskStatus">Task Status</label>
+                <input type="text" id="taskStatus" formControlName="taskStatus" />
+
+                <label for="dueDate">Due Date</label>
+                <input type="date" id="dueDate" formControlName="dueDate" />
+            </div>
+            <button type="submit" [disabled]="taskForm.invalid">Submit</button>
+        </form>
+    </div>
+</div>
