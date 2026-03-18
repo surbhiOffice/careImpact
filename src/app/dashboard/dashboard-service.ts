@@ -1,13 +1,16 @@
 import { Injectable, signal } from '@angular/core';
 
 export interface Patient {
-  // id: number;
-  // name: string;
-  // age: number;
-  // grade: string;
-  // course: string;
-  // email: string;
-
+  taskId: string;
+  taskPriority: string;
+  service: string;
+  taskType: string;
+  taskDetails: string;
+  taskStatus: string;
+  patient: string;
+  dueDate: string;
+}
+export interface HistoricalPatient {
   taskId: string;
   taskPriority: string;
   service: string;
@@ -18,19 +21,18 @@ export interface Patient {
   dueDate: string;
 }
 
-
 export type NewPatient = Omit<Patient, 'taskId'>;
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class DashboardService {
-    searchValue = signal<string>('');
-    hcpServiceFilter = signal<string>('');
-
-
-  patients= signal<Patient[]> ([
+  searchValue = signal<string>('');
+  hcpServiceFilter = signal<string>('');
+  hcpTaskTypeFilter = signal<string>('');
+  hcpStatusFilter = signal<string>('');
+  hcpPriorityFilter = signal<string>('');
+  patients = signal<Patient[]>([
     {
       taskId: 'RPM001',
       taskPriority: 'Important',
@@ -642,40 +644,247 @@ export class DashboardService {
       dueDate: '2023-03-22',
     },
   ]);
+historicalData = signal<HistoricalPatient[]>([
+  {
+    taskId: 'RPM101',
+    taskPriority: 'Urgent',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Verify Blood Pressure Reading',
+    taskStatus: 'Overdue',
+    patient: 'John Carter',
+    dueDate: '2023-04-01',
+  },
+  {
+    taskId: 'RPM102',
+    taskPriority: 'Important',
+    service: 'RPM',
+    taskType: 'Abnormal Reading',
+    taskDetails: 'Review High Glucose Level',
+    taskStatus: 'To Do',
+    patient: 'Emily Watson',
+    dueDate: '2023-04-01',
+  },
+  {
+    taskId: 'CCM101',
+    taskPriority: 'Regular',
+    service: 'CCM',
+    taskType: 'Follow Up',
+    taskDetails: 'Monthly Care Follow-up',
+    taskStatus: 'To Do',
+    patient: 'Michael Brown',
+    dueDate: '2023-04-02',
+  },
+  {
+    taskId: 'RPM103',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Patient Reminder',
+    taskDetails: 'Remind to submit daily reading',
+    taskStatus: 'To Do',
+    patient: 'Sophia Davis',
+    dueDate: '2023-04-02',
+  },
+  {
+    taskId: 'RPM104',
+    taskPriority: 'Important',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Check Oxygen Saturation',
+    taskStatus: 'Completed',
+    patient: 'Daniel Wilson',
+    dueDate: '2023-04-02',
+  },
+  {
+    taskId: 'RPM105',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Validate Heart Rate',
+    taskStatus: 'To Do',
+    patient: 'Olivia Martinez',
+    dueDate: '2023-04-03',
+  },
+  {
+    taskId: 'RPM106',
+    taskPriority: 'Urgent',
+    service: 'RPM',
+    taskType: 'Abnormal Reading',
+    taskDetails: 'Critical BP Spike Review',
+    taskStatus: 'Overdue',
+    patient: 'James Anderson',
+    dueDate: '2023-04-03',
+  },
+  {
+    taskId: 'RPM107',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Patient Reminder',
+    taskDetails: 'Reminder for evening reading',
+    taskStatus: 'To Do',
+    patient: 'Isabella Thomas',
+    dueDate: '2023-04-03',
+  },
+  {
+    taskId: 'CCM102',
+    taskPriority: 'Important',
+    service: 'CCM',
+    taskType: 'Follow Up',
+    taskDetails: 'Diet and Medication Review',
+    taskStatus: 'Completed',
+    patient: 'William Taylor',
+    dueDate: '2023-04-04',
+  },
+  {
+    taskId: 'RPM108',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Check Daily Weight',
+    taskStatus: 'To Do',
+    patient: 'Ava Moore',
+    dueDate: '2023-04-04',
+  },
+  {
+    taskId: 'RPM109',
+    taskPriority: 'Important',
+    service: 'RPM',
+    taskType: 'Abnormal Reading',
+    taskDetails: 'Investigate Low Oxygen Level',
+    taskStatus: 'To Do',
+    patient: 'Benjamin Jackson',
+    dueDate: '2023-04-04',
+  },
+  {
+    taskId: 'RPM110',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Check Blood Sugar',
+    taskStatus: 'Completed',
+    patient: 'Mia White',
+    dueDate: '2023-04-05',
+  },
+  {
+    taskId: 'RPM111',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Patient Reminder',
+    taskDetails: 'Morning Reading Reminder',
+    taskStatus: 'To Do',
+    patient: 'Lucas Harris',
+    dueDate: '2023-04-05',
+  },
+  {
+    taskId: 'RPM112',
+    taskPriority: 'Urgent',
+    service: 'RPM',
+    taskType: 'Abnormal Reading',
+    taskDetails: 'Severe Glucose Drop Alert',
+    taskStatus: 'Overdue',
+    patient: 'Charlotte Clark',
+    dueDate: '2023-04-05',
+  },
+  {
+    taskId: 'CCM103',
+    taskPriority: 'Regular',
+    service: 'CCM',
+    taskType: 'Follow Up',
+    taskDetails: 'Care Plan Adjustment',
+    taskStatus: 'To Do',
+    patient: 'Henry Lewis',
+    dueDate: '2023-04-06',
+  },
+  {
+    taskId: 'RPM113',
+    taskPriority: 'Important',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Review Weekly Trends',
+    taskStatus: 'Completed',
+    patient: 'Amelia Walker',
+    dueDate: '2023-04-06',
+  },
+  {
+    taskId: 'RPM114',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Check Temperature Reading',
+    taskStatus: 'To Do',
+    patient: 'Ethan Hall',
+    dueDate: '2023-04-06',
+  },
+  {
+    taskId: 'RPM115',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Patient Reminder',
+    taskDetails: 'Submit afternoon reading',
+    taskStatus: 'To Do',
+    patient: 'Harper Allen',
+    dueDate: '2023-04-07',
+  },
+  {
+    taskId: 'RPM116',
+    taskPriority: 'Important',
+    service: 'RPM',
+    taskType: 'Abnormal Reading',
+    taskDetails: 'BP Fluctuation Review',
+    taskStatus: 'To Do',
+    patient: 'Alexander Young',
+    dueDate: '2023-04-07',
+  },
+  {
+    taskId: 'RPM117',
+    taskPriority: 'Regular',
+    service: 'RPM',
+    taskType: 'Reading',
+    taskDetails: 'Check Pulse Rate',
+    taskStatus: 'Completed',
+    patient: 'Ella King',
+    dueDate: '2023-04-07',
+  }
+]);
+
 
   setSearch(value: string) {
     this.searchValue.set(value);
   }
- 
+
   selectService(service: string) {
     this.hcpServiceFilter.set(service);
   }
+  selectTaskType(taskType: string) {
+    this.hcpTaskTypeFilter.set(taskType);
+  }
+  selectStatus(status: string) {
+    this.hcpStatusFilter.set(status);
+  }
+  selectPriority(priority: string) {
+    this.hcpPriorityFilter.set(priority);
+  }
 
+  getNextTaskId(list: Patient[], prefix: string): string {
+    const filtered = list.filter((item) => item.taskId?.startsWith(prefix));
+    const numbers = filtered.map((item) => {
+      const numPart = item.taskId.replace(prefix, '');
+      return Number(numPart);
+    });
+    const max = numbers.length ? Math.max(...numbers) : 0;
+    const next = max + 1;
+    return `${prefix}${String(next).padStart(3, '0')}`;
+  }
 
-getNextTaskId(list: Patient[], prefix: string): string {
-  const filtered = list.filter(item => item.taskId?.startsWith(prefix));
-  const numbers = filtered.map(item => {
-    const numPart = item.taskId.replace(prefix, '');
-    return Number(numPart);
-  });
-  const max = numbers.length ? Math.max(...numbers) : 0;
-  const next = max + 1;
-  return `${prefix}${String(next).padStart(3, '0')}`;
-}
-
-    addPatient(patient: NewPatient) {
+  addPatient(patient: NewPatient) {
     const patientWithId: Patient = {
       ...patient,
-     taskId: this.getNextTaskId(this.patients(), 'RPM'),
+      taskId: this.getNextTaskId(this.patients(), 'RPM'),
     };
     this.patients.update((list) => [...list, patientWithId]);
     // console.log(this.patients);
-    
   }
   updatePatient(id: string, changes: Partial<NewPatient>) {
-    this.patients.update((list) =>
-      list.map((e) => (e.taskId === id ? { ...e, ...changes } : e))
-    );
+    this.patients.update((list) => list.map((e) => (e.taskId === id ? { ...e, ...changes } : e)));
   }
-
 }

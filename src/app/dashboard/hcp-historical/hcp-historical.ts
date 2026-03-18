@@ -1,54 +1,108 @@
 import { Component, computed, effect, OnInit, Signal, signal, WritableSignal } from '@angular/core';
-import { CatsDataGridComponent, CommonRendererComponent } from 'cats-data-grid';
-import { DashboardService } from '../dashboard-service';
+import { CatsDataGridComponent } from 'cats-data-grid';
+import { DashboardService, HistoricalPatient, Patient } from '../dashboard-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonLink } from '../../common-link/common-link';
-import { NgTemplateOutlet } from '@angular/common';
-import { AddTaskForm } from '../add-task-form/add-task-form';
-
+// import {filterData} from '../../../Utilities/filterUtilities';
 @Component({
-  selector: 'app-task',
-  imports: [CatsDataGridComponent, NgTemplateOutlet, AddTaskForm],
-  templateUrl: './task.html',
-  styleUrl: './task.scss',
+  selector: 'app-hcp-historical',
+  imports: [CatsDataGridComponent],
+  templateUrl: './hcp-historical.html',
+  styleUrl: './hcp-historical.scss',
 })
-export class Task implements OnInit {
-  patient!: Signal<any[]>;
+export class HcpHistorical implements OnInit {
+  patient!: Signal<HistoricalPatient[]>;
+  originalData!: Signal<HistoricalPatient[]>;
+  filteredData = signal<HistoricalPatient[]>([]);
   currentPatient: any = null;
   showForm = signal(false);
 
+  filters = signal<any>({
+    search: '',
+    service: '',
+    status: '',
+  });
+  ngOnInit() {
+    this.originalData = this.patient;
+    this.filteredData.set(this.patient());
+    this.updatePagedData();
+  }
   constructor(
     private searchService: DashboardService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
-    this.patient = this.searchService.patients;
+    this.patient = this.searchService.historicalData;
 
     effect(() => {
-      this.searchService.searchValue(); // watch signal
-      this.page = 0; // reset pagination
-      this.updatePagedData(); // update table
+      const data = this.filteredRows(); //  automatically tracks all dependencies
+      this.page = 0;
+      this.updatePagedData();
     });
-  }
-
-  ngOnInit() {
-    this.updatePagedData();
   }
 
   filteredRows = computed(() => {
     const search = this.searchService.searchValue().toLowerCase();
     const service = this.searchService.hcpServiceFilter()?.toLowerCase() || '';
+    const status = this.searchService.hcpStatusFilter()?.toLowerCase() || '';
+    const taskType = this.searchService.hcpTaskTypeFilter()?.toLowerCase() || '';
+    const priority = this.searchService.hcpPriorityFilter()?.toLowerCase() || '';
     const rows = this.patient();
 
-    return rows.filter((row: any) => {
-      const matchesSearch =
-        !search ||
-        Object.values(row).some((value: any) => value?.toString().toLowerCase().includes(search));
-      const matchesService = !service || row.service?.toLowerCase() === service;
-      return matchesSearch && matchesService;
-    });
-  });
+    // return rows.filter((row: Patient) => {
+    //     const matchesSearch =
+    //     !search ||
+    //     Object.values(row).some((value: any) => value?.toString().toLowerCase().includes(search));
+    //   const matchesPriority =
+    //     !priority || row.taskPriority?.toLowerCase()=== priority;
+    //   const matchesService = !service || row.service?.toLowerCase()=== service;
 
+    //   const matchesStatus = !status || row.taskStatus?.toLowerCase()=== status;
+
+    //   const matchesTaskType = !taskType || row.taskType?.toLowerCase() === taskType;
+    //   return  matchesSearch && matchesService && matchesStatus && matchesTaskType && matchesPriority;
+    // });
+ return rows.filter((row: Patient) => {
+  const matchesSearch =
+    !search ||
+    Object.values(row).some((value: any) =>
+      value?.toString().toLowerCase().includes(search)
+    );
+
+  const matchesPriority =
+    !priority ||
+    row.taskPriority?.toLowerCase().trim() === priority.trim();
+
+  const matchesService =
+    !service ||
+    row.service?.toLowerCase().trim() === service.trim();
+
+  const matchesStatus =
+    !status ||
+    row.taskStatus?.toLowerCase().trim() === status.trim();
+
+  const matchesTaskType =
+    !taskType ||
+    row.taskType?.toLowerCase().trim() === taskType.trim();
+
+  return (
+    matchesSearch &&
+    matchesService &&
+    matchesStatus &&
+    matchesTaskType &&
+    matchesPriority
+  );
+});
+  });
+  onInputSelectiontext(selected: any) {
+    const service = selected?.name; // RPM / CCM / SelectAll
+
+    if (service === 'SelectAll') {
+      this.searchService.selectService('');
+    } else {
+      this.searchService.selectService(service);
+    }
+  }
   page = 0;
   pageSize = 20;
   pagedData: any[] = [];
@@ -189,8 +243,8 @@ export class Task implements OnInit {
   onLineClicked(param: any) {
     // console.log('Clicked:', param);
     const task = param;
-    this.router.navigate(['/dashboard/tasks', task.taskId], {
-      state: { task },
-    });
+    // this.router.navigate(['/dashboard/tasks', task.taskId], {
+    //   state: { task },
+    // });
   }
 }

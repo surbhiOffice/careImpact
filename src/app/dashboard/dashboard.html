@@ -8,7 +8,7 @@
     <ul class="menu">
       <li><a>Home</a></li>
       <li><a routerLink="/dashboard/tasks" routerLinkActive="active">Tasks</a></li>
-      <li><a>Patients</a></li>
+      <li><a routerLink="/dashboard/patient" routerLinkActive="active">Patients</a></li>
       <li><a>Timesheets</a></li>
       <li><a>Settings</a></li>
     </ul>
@@ -46,42 +46,50 @@
     <!-- Page Content -->
     <div class="content">
       <div class="tasks-header">
-        <h3>OPEN TASKS</h3>
-
+        <h3>{{ breadcrumbs[breadcrumbs.length - 1] }}</h3>
+@if (!isTaskDetailRoute) {
         <div class="task-controls">
-          <!-- <cats-ui-single-select
-            [optionList]="time"
-            [singleSelectConfig]="singleConfig"
-            (onSelection)="onInputSelectiontext($event)"
-          >
-          </cats-ui-single-select> -->
+          <!-- Ye sirf historical page par dikhenge -->
+          @if (isHistoricalRoute) {
+
+            <cats-ui-single-select
+              [optionList]="status"
+              [singleSelectConfig]="statusConfig"
+              (onSelection)="onStatusSelection($event)"
+            >
+            </cats-ui-single-select>
+
+            <cats-ui-single-select
+              [optionList]="taskType"
+              [singleSelectConfig]="taskConfig"
+              (onSelection)="onTaskTypeSelection($event)"
+            >
+            </cats-ui-single-select>
+
+            <cats-ui-single-select
+              [optionList]="priority"
+              [singleSelectConfig]="priorityConfig"
+              (onSelection)="onPrioritySelection($event)"
+            >
+            </cats-ui-single-select>
+          }
+
+          <!-- Ye hamesha dikhega -->
           <cats-ui-single-select
             [optionList]="options"
             [singleSelectConfig]="singleConfig"
             (onSelection)="onInputSelectiontext($event)"
           >
           </cats-ui-single-select>
-          <!-- <cats-ui-single-select
-            [optionList]="status"
-            [singleSelectConfig]="statusConfig"
-            (onSelection)="onInputSelectiontext($event)"
-          >
-          </cats-ui-single-select>
-          <cats-ui-single-select
-            [optionList]="taskType"
-            [singleSelectConfig]="taskConfig"
-            (onSelection)="onInputSelectiontext($event)"
-          >
-          </cats-ui-single-select>
-          <cats-ui-single-select
-            [optionList]="priority"
-            [singleSelectConfig]=" priorityConfig"
-            (onSelection)="onInputSelectiontext($event)"
-          >
-          </cats-ui-single-select> -->
 
-          <button class="history-btn">View Historical Tasks</button>
+          <!-- Button sirf tasks page par dikhe -->
+          @if (!isHistoricalRoute) {
+            <button class="history-btn" routerLink="/dashboard/hcp-historical">
+              View Historical Tasks
+            </button>
+          }
         </div>
+      }
       </div>
 
       <div class="table-container">
