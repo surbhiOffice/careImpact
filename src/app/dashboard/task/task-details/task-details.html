@@ -30,18 +30,10 @@
         <label>Contact No.</label>
         <div class="value">+1-555-123-4567</div>
         <label>HCP Note *</label>
-        <textarea [(ngModel)]="hcpNote"></textarea>
+        <textarea [(ngModel)]="hcpNote" (ngModelChange)="checkForm()"></textarea>
 
         <label>Add Timesheet</label>
-        <input type="number" [(ngModel)]="timeInput" (input)="onTimeChange()" min="0" max="20" placeholder="Enter minutes (0-20)" />
-
-        <!-- <cats-ui-date-time-picker
-          class="time-picker"
-          #picker
-          (dateTimeSelected)="onDatetimeSelected($event)"
-          [dateConfig]="{ selectionMode: 'single' }"
-          [(ngModel)]="timeInput"
-        ></cats-ui-date-time-picker> -->
+        <input type="number" [(ngModel)]="timeInput"  (ngModelChange)="onTimeChange()" min="0" max="20" placeholder="Enter minutes (0-20)" />
 
         <label>Map Time Against</label>
         <select style="width: 300px">

@@ -28,30 +28,20 @@ export class Dashboard {
     });
     this.updateBreadcrumb();
   }
-  // ngOnInit() {
-  //   this.router.events.subscribe(() => {
-  //     const url = this.router.url;
-  //     this.isHistoricalRoute = this.router.url.includes('hcp-historical');
-  //      this.isTaskDetailRoute = /^\/dashboard\/tasks\/[^\/]+$/.test(url);
-  //   });
 
-  // }
+  ngOnInit() {
+    this.setRouteFlags(this.router.url);
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.setRouteFlags(event.urlAfterRedirects);
+      });
+  }
 
-
-ngOnInit() {
-  this.setRouteFlags(this.router.url);
-
-  this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe((event: NavigationEnd) => {
-      this.setRouteFlags(event.urlAfterRedirects);
-    });
-}
-
-setRouteFlags(url: string) {
-  this.isHistoricalRoute = url.includes('hcp-historical');
-  this.isTaskDetailRoute = /^\/dashboard\/tasks\/[^\/]+$/.test(url);
-}
+  setRouteFlags(url: string) {
+    this.isHistoricalRoute = url.includes('hcp-historical');
+    this.isTaskDetailRoute = /^\/dashboard\/tasks\/[^\/]+$/.test(url);
+  }
   updateBreadcrumb() {
     const url = this.router.url;
     const segments = url.split('/').filter((x: any) => x && x !== 'dashboard');
