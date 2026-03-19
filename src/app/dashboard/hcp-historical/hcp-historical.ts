@@ -117,22 +117,25 @@ export class HcpHistorical implements OnInit {
       headerName: 'Task ID',
       cellRenderer: CommonLink,
     },
-    {
+       {
       fieldName: 'taskPriority',
       headerName: 'Task Priority',
       cellRenderer: (params: any) => {
         const value = params.value;
 
         const colorMap: any = {
-          Urgent: '#ff4d4f',
-          Important: '#6fbdeb',
-          Regular: '#52c41a',
+          Urgent: '#E58900',
+          Important: '#017DB9',
+          Regular: '#27A468',
         };
 
         const color = colorMap[value] || '#000';
 
         return `
 <span style="
+ display:inline-block;
+  text-align:center;
+  min-width:90px;
   color:${color};
   border:1px solid ${color};
   background:${color}1A;

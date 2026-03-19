@@ -30,7 +30,7 @@
         <label>Contact No.</label>
         <div class="value">+1-555-123-4567</div>
         <label>HCP Note *</label>
-        <textarea [(ngModel)]="hcpNote" (ngModelChange)="checkForm()"></textarea>
+       <textarea [(ngModel)]="hcpNote" (ngModelChange)="checkForm()"></textarea>
 
         <label>Add Timesheet</label>
         <input type="number" [(ngModel)]="timeInput"  (ngModelChange)="onTimeChange()" min="0" max="20" placeholder="Enter minutes (0-20)" />
@@ -46,7 +46,7 @@
     <div class="actions">
       <button class="btn outline">Clear Details</button>
       <!-- <button class="btn primary">Complete Task</button> -->
-      <button class="btn primary" [disabled]="!isFormValid">Complete Task</button>
+      <button class="btn primary" [disabled]="!isFormValid"  (click)="completeTask()">Complete Task</button>
     </div>
   </div>
 

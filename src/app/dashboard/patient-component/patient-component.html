@@ -1,5 +1,8 @@
 <p>patient-component works!</p>
-   <!-- <cats-data-grid [rowData]="pagedData" [colDefs]="colDef" [totalRecords]="filteredRows().length" [paginationRequired]="true"
-        [sortingRequired]="true" [filterRequired]="true"  [tableOptions]="tableOption()"
-        [pageSizeList]="[20,30,50]" (onPaginationChange)="pageChange($event)">
-    </cats-data-grid> -->
+   <cats-data-grid [rowData]="patient()" [colDefs]="colDef" [paginationRequired]="true"
+        [sortingRequired]="false" [filterRequired]="false" [threeDotsMenuRequired]="false"
+        [pageSizeList]="[20,30,50]">
+    </cats-data-grid>
+
+
+     <!-- (onPaginationChange)="pageChange($event)"   [tableOptions]="tableOption()"  [totalRecords]="filteredRows().length" -->

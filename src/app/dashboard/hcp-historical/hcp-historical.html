@@ -1,5 +1,5 @@
    <!-- <img src="addBox.svg" alt="add" style="background-color: black" (click)="onclick()" /> -->
    <cats-data-grid [rowData]="pagedData" [colDefs]="colDef" [totalRecords]="filteredRows().length" [paginationRequired]="true"
-        [sortingRequired]="true" [filterRequired]="true"  [tableOptions]="tableOption()"
+        [sortingRequired]="false" [filterRequired]="false"  [tableOptions]="tableOption()"
         [pageSizeList]="[20,30,50]" (onPaginationChange)="pageChange($event)">
     </cats-data-grid>

@@ -14,34 +14,50 @@ export class TaskDetails implements OnInit {
     console.log(this.patient);
   }
   hcpNote: string = '';
-  timeInput: string = '';
+  timeInput: number = 0;
   isFormValid: boolean = false;
   progress: number = 0;
   remainingTime: string = '20:00'; 
   maxMinutes = 20;
   
-  checkForm() {
-    this.isFormValid = this.hcpNote.trim().length > 0 && this.timeInput.trim().length > 0;
-  }
+checkForm() {
+  this.isFormValid =
+    this.hcpNote.trim().length > 0 &&
+    this.timeInput > 0;
+}
 
 
 onTimeChange() {
-  this.checkForm();
-  let minutes = Number(this.timeInput) || 0;
-  // Apply min/max validation
-  if (minutes < 0) minutes = 0;
-  if (minutes > 20) minutes = 20;
+  let minutes = this.timeInput || 0;
 
-  this.timeInput = minutes.toString();
+  // Clamp value
+  if (minutes < 0) minutes = 0;
+  if (minutes > this.maxMinutes) minutes = this.maxMinutes;
+
+  this.timeInput = minutes;
 
   // Progress %
-  this.progress = Math.min((minutes / this.maxMinutes) * 100, 100);
+  this.progress = (minutes / this.maxMinutes) * 100;
 
   // Remaining time
-  const remainingMinutes = Math.max(this.maxMinutes - minutes, 0);
+  const remainingMinutes = this.maxMinutes - minutes;
   const mins = Math.floor(remainingMinutes);
-  const secs = Math.round((remainingMinutes - mins) * 60);
+  const secs = Math.floor((remainingMinutes - mins) * 60);
 
+  this.remainingTime =
+    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+  // Validate form AFTER updating values
+  this.checkForm();
+}
+
+completeTask() {
+  // const minutes = this.timeInput || 0;
+
+  // // Progress fill now
+  // this.progress = (minutes / this.maxMinutes) * 100;
+
+  console.log('Task Completed');
 }
 
 }

@@ -19,6 +19,7 @@ import { filter } from 'rxjs';
 export class Dashboard {
   isHistoricalRoute = false;
   isTaskDetailRoute = false;
+  isPatientComponentRoute = false;
   constructor(
     private searchService: DashboardService,
     private router: Router,
@@ -41,6 +42,7 @@ export class Dashboard {
   setRouteFlags(url: string) {
     this.isHistoricalRoute = url.includes('hcp-historical');
     this.isTaskDetailRoute = /^\/dashboard\/tasks\/[^\/]+$/.test(url);
+    this.isPatientComponentRoute = url.includes('patient');
   }
   updateBreadcrumb() {
     const url = this.router.url;
@@ -57,28 +59,34 @@ export class Dashboard {
   }
 
   options = [
-    { id: '1', name: 'SelectAll' },
+    { id: '1', name: 'All Services' },
     { id: '2', name: 'RPM' },
     { id: '3', name: 'CCM' },
   ];
   status = [
-    { id: '1', name: 'SelectAll' },
+    { id: '1', name: 'All Statuses' },
     { id: '2', name: 'To Do' },
     { id: '3', name: 'Overdue' },
     { id: '4', name: 'Completed' },
   ];
   priority = [
-    { id: '1', name: 'SelectAll' },
+    { id: '1', name: 'All Priorities' },
     { id: '2', name: 'Urgent' },
     { id: '3', name: 'Important' },
     { id: '4', name: 'Regular' },
   ];
   taskType = [
-    { id: '1', name: 'SelectAll' },
+    { id: '1', name: 'All Task Types' },
     { id: '2', name: 'Reading' },
     { id: '3', name: 'Abnormal Reading' },
     { id: '4', name: 'Follow Up' },
     { id: '5', name: 'Patient Reminder' },
+  ];
+  practices = [
+    { id: '1', name: 'Alpha Healthcare' },
+    { id: '2', name: 'Beta Clinic' },
+    { id: '3', name: 'City Hospital' },
+    { id: '4', name: 'Neur' },
   ];
 
   searchConfig: SearchConfig = {
@@ -94,7 +102,7 @@ export class Dashboard {
   onInputSelectiontext(selected: any) {
     const service = selected?.name; // RPM / CCM / SelectAll
 
-    if (service === 'SelectAll') {
+    if (service === 'All Services') {
       this.searchService.selectService('');
     } else {
       this.searchService.selectService(service);
@@ -103,7 +111,7 @@ export class Dashboard {
 
   onStatusSelection(selected: any) {
     const status = selected?.name;
-    if (status === 'SelectAll') {
+    if (status === 'All Statuses') {
       this.searchService.selectStatus('');
     } else {
       this.searchService.selectStatus(status);
@@ -112,7 +120,7 @@ export class Dashboard {
 
   onTaskTypeSelection(selected: any) {
     const taskType = selected?.name;
-    if (taskType === 'SelectAll') {
+    if (taskType === 'All Task Types') {
       this.searchService.selectTaskType('');
     } else {
       this.searchService.selectTaskType(taskType);
@@ -121,39 +129,48 @@ export class Dashboard {
 
   onPrioritySelection(selected: any) {
     const priority = selected?.name;
-    if (priority === 'SelectAll') {
+    if (priority === 'All Priorities') {
       this.searchService.selectPriority('');
     } else {
       this.searchService.selectPriority(priority);
     }
   }
+  
+  //   onPracticeSelection(selected: any) {
+  //   const practice = selected?.name;
+  //   if (practice === 'All Practices') {
+  //     this.searchService.selectPractice('');
+  //   } else {
+  //     this.searchService.selectPractice(practice);
+  //   }
+  // }
 
   singleConfig: SingleSelectConfig = {
     idField: 'id',
     textField: 'name',
     disabledField: 'disable',
     placeholder: 'Select Service',
-    prefixLabel: 'Service',
+    prefixLabel: 'Service:',
   };
   priorityConfig: SingleSelectConfig = {
     idField: 'id',
     textField: 'name',
     disabledField: 'disable',
     placeholder: 'Select Priority',
-    prefixLabel: 'Priority',
+    prefixLabel: 'Priority:',
   };
   taskConfig: SingleSelectConfig = {
     idField: 'id',
     textField: 'name',
     disabledField: 'disable',
     placeholder: 'Select Task Type',
-    prefixLabel: 'Task Type',
+    prefixLabel: 'Task Type:',
   };
   statusConfig: SingleSelectConfig = {
     idField: 'id',
     textField: 'name',
     disabledField: 'disable',
     placeholder: 'Select status',
-    prefixLabel: 'Status',
+    prefixLabel: 'Status:',
   };
 }

@@ -88,6 +88,14 @@
               (onSelection)="onInputSelectiontext($event)"
             >
             </cats-ui-single-select>
+@if (!isPatientComponentRoute) {
+               <cats-ui-single-select
+              [optionList]="practices"
+              [singleSelectConfig]="singleConfig"
+              (onSelection)="onInputSelectiontext($event)"
+            >
+            </cats-ui-single-select>
+            }
 
             <!-- Button sirf tasks page par dikhe -->
             @if (!isHistoricalRoute) {
